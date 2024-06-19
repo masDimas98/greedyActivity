@@ -1,0 +1,21 @@
+config/database/stick to false;
+
+Minumum Req :
+1. Apache   :2.4.59
+2. PHP      :8.2.20
+
+Version Aplikasi
+1. Laravel 11
+2. livewire 3
+
+untuk pembuatan class diagram ambil dari A
+1. Controller   : App\Livewire
+2. Model        : App\Models
+3. View->Parent : Resources\views\Master dan Resources\views\Greedy
+   View->Child  : Resources\views\livewire\master dan Resources\views\livewire\greedy
+
+Algoritma Greedy location : App\livewire\Greedy\WithActivities
+
+Gunakan Migration untuk migrasi database : php artisan migrate
+Jika Butuh Dummy data bisa menggunakan Seeder : php artisan Seeder
+(*note: dummy data kadang tidak sesuai, karena 1 event hanya bisa 1 sertifikat dan juga pegawai hanyan bisa menggunakan 1 sertifikat, bisa di akali dengan merubah dari database!!!)

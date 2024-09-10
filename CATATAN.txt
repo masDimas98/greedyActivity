@@ -4,6 +4,10 @@ Minumum Req :
 1. Apache   :2.4.59
 2. PHP      :8.2.20
 
+Login Default Admin: 
+username    : admin@greedy.com
+password    : password
+
 Version Aplikasi
 1. Laravel 11
 2. livewire 3

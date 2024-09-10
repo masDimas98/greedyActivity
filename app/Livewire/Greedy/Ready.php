@@ -7,6 +7,7 @@ use App\Livewire\Greedy\WithActivities;
 use App\Models\EventModel;
 use App\Models\EventSertifikatModel;
 use App\Models\PenugasanModel;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,9 @@ class Ready extends Component
     public $alertMessage = '';
     public $showAlertModal = false;
 
+    public $showPdfModal = false;
+    public $eventKey = 0;
+
     public $spinnerLoading = false;
 
     public EventModel $editing;
@@ -43,6 +47,14 @@ class Ready extends Component
     public function doGreedyActivity()
     {
         $this->spinnerLoading = true;
+
+        $checkEventStatusIsOpen = PenugasanModel::where('status', 'ready')->first();
+
+        if (!empty($checkEventStatusIsOpen)) {
+            $this->alertMessage = 'Prosses Session Kegiatan terdaftar terlebih dahulu';
+            $this->showAlertModal = true;
+            return;
+        }
 
         $jumlahDibutuhkan = EventModel::select(
             DB::raw('SUM(jumlahOrang) as jumlah'),
@@ -159,7 +171,6 @@ class Ready extends Component
                             } else {
                                 $this->alertMessage = 'Tidak Ada Anggota Available';
                                 $break = true;
-                                break;
                             }
                         } else {
                             $this->alertMessage = 'Anggota Available kurang dari permintaan';
@@ -199,12 +210,10 @@ class Ready extends Component
                             } else {
                                 $this->alertMessage = 'Tidak Ada Anggota Available';
                                 $break = true;
-                                break;
                             }
                         } else {
                             $this->alertMessage = 'Anggota Available kurang dari permintaan';
                             $break = true;
-                            break;
                         }
                     }
                     if (!$break) {
@@ -219,9 +228,44 @@ class Ready extends Component
         $this->spinnerLoading = false;
     }
 
+    function testPDF($eventKey)
+    {
+        $this->eventForDetail = EventModel::select('event.*', 'sertifikat.namaSertifikat')
+            ->leftJoin('event_sertifikat', 'event.idEvent', '=', 'event_sertifikat.idEvent')
+            ->leftJoin('sertifikat', 'event_sertifikat.idSertifikat', '=', 'sertifikat.idSertifikat')
+            ->where('event.idEvent', $eventKey)->first()->toArray();
+        $this->penugasanForDetail = PenugasanModel::select('pegawai.namaPegawai', 'penugasan.idPenugasan', 'pegawai.nip')
+            ->leftJoin('pegawai', 'penugasan.nip', '=', 'pegawai.nip')
+            ->where('penugasan.idEvent', $eventKey)
+            ->get()->toArray();
+
+        $filename = "test";
+        $data = [
+            'eventForDetail' => $this->eventForDetail,
+            'penugasanForDetail' => $this->penugasanForDetail
+        ];
+        $pdf = Pdf::loadView('pdf.template', $data);
+
+        // return $pdf->download($filename . '.pdf');
+        return $pdf->stream();
+    }
+
+    public function openPdfModal($eventKey)
+    {
+        $this->eventKey = $eventKey;
+        $this->showPdfModal = true;
+    }
+
+    public function closePdfModal()
+    {
+        $this->eventKey = 0;
+        $this->showPdfModal = false;
+    }
+
     public function penugasan($eventKey)
     {
-        $this->eventForDetail = EventModel::select('event.idEvent', 'event.namaEvent', 'event.jumlahOrang', 'sertifikat.namaSertifikat')
+        $this->eventKey = $eventKey;
+        $this->eventForDetail = EventModel::select('event.*', 'sertifikat.namaSertifikat')
             ->leftJoin('event_sertifikat', 'event.idEvent', '=', 'event_sertifikat.idEvent')
             ->leftJoin('sertifikat', 'event_sertifikat.idSertifikat', '=', 'sertifikat.idSertifikat')
             ->where('event.idEvent', $eventKey)->first()->toArray();
@@ -271,6 +315,7 @@ class Ready extends Component
         $this->alertMessage = '';
         $this->showAlertModal = false;
         $this->showEditModal = false;
+        $this->spinnerLoading = false;
     }
 
     public function render()

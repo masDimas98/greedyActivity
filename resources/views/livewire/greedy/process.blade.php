@@ -22,7 +22,7 @@
 
                     @if ($eventSelectedId)
                         <x-danger-button x-data=""
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete') . ': ' . count($eventSelectedId) }}</x-danger-button>
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-process-deletion')">{{ __('Delete') . ': ' . count($eventSelectedId) }}</x-danger-button>
                     @endif
                 </div>
             </div>
@@ -75,7 +75,7 @@
                         <th class="px-4 py-3">{{ $item->tgl_selesai_for_humans }}</th>
                         <th class="px-4 py-3">{{ $item->daftarsertifikat }}</th>
                         <th class="px-4 py-3">
-                            <x-button.link wire:click="penugasan({{ $item->idEvent }})">Finish</x-button.link>
+                            <x-button.link wire:click="finish({{ $item->idEvent }})">Finish</x-button.link>
                         </th>
                     </tr>
                 @endforeach
@@ -200,7 +200,7 @@
     </form>
 
     {{-- Delete Model --}}
-    <x-modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
+    <x-modal name="confirm-process-deletion" :show="$errors->isNotEmpty()" focusable>
         <form wire:submit="delete" class="p-6">
 
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">

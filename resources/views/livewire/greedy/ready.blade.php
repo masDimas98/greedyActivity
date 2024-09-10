@@ -22,7 +22,7 @@
 
                     @if ($eventSelectedId)
                         <x-danger-button x-data=""
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete') . ': ' . count($eventSelectedId) }}</x-danger-button>
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-ready-deletion')">{{ __('Delete') . ': ' . count($eventSelectedId) }}</x-danger-button>
                     @endif
 
                     <x-button.primary wire:click="doGreedyActivity">
@@ -87,7 +87,8 @@
                         <th class="px-4 py-3">{{ $item->tgl_selesai_for_humans }}</th>
                         <th class="px-4 py-3">{{ $item->daftarsertifikat }}</th>
                         <th class="px-4 py-3">
-                            <x-button.link wire:click="penugasan({{ $item->idEvent }})">Penugasan</x-button.link>
+                            <x-button.link wire:click="penugasan({{ $item->idEvent }})">Penugasan</x-button.link>|
+                            <x-button.link wire:click="openPdfModal({{ $item->idEvent }})">PDF</x-button.link>
                         </th>
                     </tr>
                 @endforeach
@@ -205,14 +206,13 @@
 
             <x-slot name="footer">
                 <x-button.secondary wire:click="closeModal()">Cancel</x-button.secondary>
-
                 <x-button.primary type="submit">Mulai Penugasan</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
 
     {{-- Delete Model --}}
-    <x-modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
+    <x-modal name="confirm-ready-deletion" :show="$errors->isNotEmpty()" focusable>
         <form wire:submit="delete" class="p-6">
 
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -250,6 +250,22 @@
 
         <x-slot name="footer">
             <x-button.secondary wire:click="closeModal()">Close</x-button.secondary>
+        </x-slot>
+    </x-modal.dialog>
+
+    {{-- PDF Modal --}}
+    <x-modal.dialog wire:model.defer="showPdfModal" :show="$errors->isNotEmpty()" focusable>
+        <x-slot name="title">
+            PDF Preview
+        </x-slot>
+
+        <x-slot name="content">
+            <iframe src="{{ route('generate.pdf', ['id' => $eventKey]) }}" style="width: 100%; height: 500px;"
+                frameborder="0"></iframe>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-button.secondary wire:click="closePdfModal()">Close</x-button.secondary>
         </x-slot>
     </x-modal.dialog>
 

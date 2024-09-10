@@ -1,14 +1,7 @@
 <?php
 
-use App\Livewire\Greedy\Activities;
-use App\Livewire\Master\Bagian;
-use App\Livewire\Master\Event;
-use App\Livewire\Master\Pegawai;
-use App\Livewire\Master\Sertifikat;
+use App\Livewire\Greedy\Ready;
 use Illuminate\Support\Facades\Route;
-
-use Livewire\Volt\Volt;
-
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -21,5 +14,6 @@ Route::view('master/pegawai', 'master.pegawai')->middleware(['auth'])->name('mas
 Route::view('master/event', 'master.event')->middleware(['auth'])->name('master.event');
 
 Route::view('greedy/event', 'greedy.event')->middleware(['auth'])->name('greedy.event');
+Route::get('/generate-pdf/{id}', [Ready::class, 'testPDF'])->name('generate.pdf');
 
 require __DIR__ . '/auth.php';

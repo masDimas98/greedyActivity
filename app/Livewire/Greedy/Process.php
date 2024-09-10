@@ -35,7 +35,7 @@ class Process extends Component
         $this->editing = new EventModel();
     }
 
-    public function penugasan($eventKey)
+    public function finish($eventKey)
     {
         $this->eventForDetail = EventModel::select('event.idEvent', 'event.namaEvent', 'event.jumlahOrang', 'sertifikat.namaSertifikat')
             ->leftJoin('event_sertifikat', 'event.idEvent', '=', 'event_sertifikat.idEvent')

@@ -82,6 +82,8 @@ class Ready extends Component
             select pegawai.*,sertifikasi.idSertifikat
             from pegawai
             LEFT join sertifikasi on pegawai.nip = sertifikasi.nip
+            LEFT join penugasan on pegawai.nip = penugasan.nip
+            where penugasan.nip is null
             AND sertifikasi.idSertifikat in (' . implode(",", $listSertifikatdiButuhkan) . ')) lt');
 
         $needGreedyActivity = array();

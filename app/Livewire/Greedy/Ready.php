@@ -27,6 +27,9 @@ class Ready extends Component
     public $eventForDetail = [];
     public $penugasanForDetail = [];
 
+    public $alertMessage = '';
+    public $showAlertModal = false;
+
     public $spinnerLoading = false;
 
     public EventModel $editing;
@@ -87,13 +90,15 @@ class Ready extends Component
                 $needGreedyActivity[$key] = [
                     'anggotaSertifikat' => $totalAnggota,
                     'daftarAnggota' => $anggotaDetail,
-                    'idSertifikat' => $value['idSertifikat']
+                    'idSertifikat' => $value['idSertifikat'],
+                    'jumlahDibutuhkan' => $value['jumlah']
                 ];
             } else {
                 $notNeedGreedyActivity[$key] = [
                     'anggotaSertifikat' => $totalAnggota,
                     'daftarAnggota' => $anggotaDetail,
-                    'idSertifikat' => $value['idSertifikat']
+                    'idSertifikat' => $value['idSertifikat'],
+                    'jumlahDibutuhkan' => $value['jumlah']
                 ];
             }
         }
@@ -139,7 +144,7 @@ class Ready extends Component
                 foreach ($notNeedGreedyActivity as $k => $v) {
                     if ($value->idSertifikat == $v['idSertifikat']) {
                         if ($value->jumlahOrang <= count($v['daftarAnggota'])) {
-                            if (empty($notNeedGreedyActivity[$k]['daftarAnggota'])) {
+                            if (!empty($notNeedGreedyActivity[$k]['daftarAnggota'])) {
                                 for ($i = 0; $i < count($v['daftarAnggota']); $i++) {
                                     if ($countPenugasaOrang == $value->jumlahOrang) break;
                                     $countPenugasaOrang++;
@@ -152,9 +157,12 @@ class Ready extends Component
                                     unset($needGreedyActivity[$k]['daftarAnggota'][$i]);
                                 }
                             } else {
+                                $this->alertMessage = 'Tidak Ada Anggota Available';
                                 $break = true;
+                                break;
                             }
                         } else {
+                            $this->alertMessage = 'Anggota Available kurang dari permintaan';
                             $break = true;
                             break;
                         }
@@ -163,6 +171,8 @@ class Ready extends Component
                 }
                 if (!$break) {
                     EventModel::where('idEvent', $value->idEvent)->update(['status' => 'ready']);
+                } else {
+                    $this->showAlertModal = true;
                 }
             }
         }
@@ -187,16 +197,20 @@ class Ready extends Component
                                 PenugasanModel::create($penugasanCreate);
                                 unset($resultGreedyActivity[$key]['daftarAnggota'][$keyAnggota]);
                             } else {
+                                $this->alertMessage = 'Tidak Ada Anggota Available';
                                 $break = true;
                                 break;
                             }
                         } else {
+                            $this->alertMessage = 'Anggota Available kurang dari permintaan';
                             $break = true;
                             break;
                         }
                     }
                     if (!$break) {
                         EventModel::where('idEvent', $value['event'])->update(['status' => 'ready']);
+                    } else {
+                        $this->showAlertModal = true;
                     }
                 }
             }
@@ -254,6 +268,8 @@ class Ready extends Component
 
     public function closeModal()
     {
+        $this->alertMessage = '';
+        $this->showAlertModal = false;
         $this->showEditModal = false;
     }
 

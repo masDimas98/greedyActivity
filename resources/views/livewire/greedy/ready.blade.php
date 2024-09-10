@@ -236,4 +236,21 @@
         </form>
     </x-modal>
 
+    {{-- Alert Modal --}}
+    <x-modal.dialog wire:model.defer="showAlertModal" :show="$errors->isNotEmpty()" focusable>
+        <x-slot name="title">
+            Alert
+        </x-slot>
+
+        <x-slot name="content">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __($alertMessage) }}
+            </h2>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-button.secondary wire:click="closeModal()">Close</x-button.secondary>
+        </x-slot>
+    </x-modal.dialog>
+
 </section>

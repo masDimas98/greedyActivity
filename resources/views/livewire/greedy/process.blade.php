@@ -194,7 +194,7 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="closeModal()">Cancel</x-button.secondary>
 
-                <x-button.primary type="submit">Mulai Penugasan</x-button.primary>
+                <x-button.primary type="submit">Penugasan Selesai</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

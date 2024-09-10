@@ -62,8 +62,8 @@ class Process extends Component
     {
         if (count($this->eventSelectedId)) {
             foreach ($this->eventSelectedId as $value) {
-                PenugasanModel::where('idEvent', $value)->update(['status' => 'ready']);
                 EventModel::where('idEvent', $value)->update(['status' => 'ready']);
+                PenugasanModel::where('idEvent', $value)->update(['status' => 'ready']);
             }
         }
 

@@ -99,7 +99,7 @@ class Event extends Component
     {
         if (count($this->eventSelectedId)) {
             for ($i = 0; $i < count($this->eventSelectedId); $i++) {
-                EventModel::find($this->eventSelectedId)->delete();
+                EventModel::find($this->eventSelectedId[$i])->delete();
             }
         }
 

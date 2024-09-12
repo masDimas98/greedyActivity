@@ -20,10 +20,15 @@
             margin-bottom: 50px;
         }
 
-        .customeTable td,
-        .customeTable th {
+        .customeTable td {
             border: 1px solid #dddddd;
             text-align: left;
+            padding: 8px;
+        }
+
+        .customeTable th {
+            border: 1px solid #dddddd;
+            text-align: center;
             padding: 8px;
         }
 
@@ -181,7 +186,7 @@
                 @foreach ($penugasanForDetail as $item)
                     <tbody>
                         <tr>
-                            <td>
+                            <td style="text-align: center;">
                                 {{ $no }}
                             </td>
                             <td>
@@ -195,10 +200,10 @@
                             </td>
                         </tr>
                     </tbody>
+                    @php
+                        $no++;
+                    @endphp
                 @endforeach
-                @php
-                    $no++;
-                @endphp
             @endif
         </table>
 

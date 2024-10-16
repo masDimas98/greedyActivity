@@ -126,7 +126,7 @@
                 @if ($creatingData)
                     <x-input.group for="status" label="Status" :error="$errors->first('editing.status')">
                         <x-input.select wire:model.defer='editing.status' id="status">
-                            <option value="" disabled>Select Status...</option>
+                            <option>Select Status...</option>
                             <option value="open">Open</option>
                         </x-input.select>
                         @if (!$editing->namaEvent)

@@ -68,10 +68,12 @@ class Event extends Component
     {
         $this->validate();
 
-        if ($this->statusBefore !== 'open') {
-            if ($this->editing->status == 'open') {
-                $this->dispatch('open-modal', 'confirm-status-change');
-                return;
+        if ($this->creatingData == false) {
+            if ($this->statusBefore !== 'open') {
+                if ($this->editing->status == 'open') {
+                    $this->dispatch('open-modal', 'confirm-status-change');
+                    return;
+                }
             }
         }
 

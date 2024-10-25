@@ -32,9 +32,9 @@ class Pegawai extends Component
     {
         return [
             'editing.nip' => 'required|unique:Pegawai,nip',
-            'editing.ktp' => 'required|unique:Pegawai,ktp',
+            // 'editing.ktp' => 'required|unique:Pegawai,ktp',
             'editing.namaPegawai' => 'required|min:3',
-            'editing.namaPanggilan' => 'required|min:3',
+            // 'editing.namaPanggilan' => 'required|min:3',
             'editing.bagian' => 'required',
             'editing.posisiSekarang' => 'required',
             'editing.tempatLahir' => 'required',
@@ -59,16 +59,16 @@ class Pegawai extends Component
         if ($this->editing->isNot($pegawaiModel)) $this->editing = $pegawaiModel;
 
         $this->nipBefore = $this->editing->nip;
-        $this->ktpBefore = $this->editing->ktp;
+        // $this->ktpBefore = $this->editing->ktp;
         $this->showEditModal = true;
     }
 
     public function save()
     {
         $rules = $this->rules();
-        if ($this->ktpBefore || $this->ktpBefore == $this->editing->ktp) {
-            unset($rules['editing.ktp']);
-        }
+        // if ($this->ktpBefore || $this->ktpBefore == $this->editing->ktp) {
+        //     unset($rules['editing.ktp']);
+        // }
 
         if ($this->nipBefore || $this->nipBefore == $this->editing->nip) {
             unset($rules['editing.nip']);
@@ -91,7 +91,7 @@ class Pegawai extends Component
             $this->editing->where('nip', $this->nipBefore)->update($data);
 
             $this->nipBefore = '';
-            $this->ktpBefore = '';
+            // $this->ktpBefore = '';
 
             $this->showEditModal = false;
             return;
@@ -99,7 +99,7 @@ class Pegawai extends Component
 
         $this->editing->save();
         $this->nipBefore = '';
-        $this->ktpBefore = '';
+        // $this->ktpBefore = '';
         $this->showEditModal = false;
     }
 
@@ -112,7 +112,7 @@ class Pegawai extends Component
         }
 
         $this->pegawaiSelectedId = [];
-        $this->dispatch('close-modal', 'confirm-user-deletion');
+        $this->dispatch('close-modal', 'confirm-pegawai-deletion');
     }
 
     public function doSort($column)

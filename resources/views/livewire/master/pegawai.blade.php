@@ -20,7 +20,7 @@
 
                     @if ($pegawaiSelectedId)
                         <x-danger-button x-data=""
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete') . ': ' . count($pegawaiSelectedId) }}</x-danger-button>
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-pegawai-deletion')">{{ __('Delete') . ': ' . count($pegawaiSelectedId) }}</x-danger-button>
                     @endif
                     <x-button.primary wire:click="create"><x-icon.plus /> New</x-button.primary>
                 </div>
@@ -38,9 +38,9 @@
                     <th wire:click="doSort('nip')" class="px-4 py-3 cursor-pointer">
                         <x-table.heading-sorting :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="nip" columnNow="nip" />
                     </th>
-                    <th wire:click="doSort('ktp')" class="px-4 py-3 cursor-pointer">
+                    {{-- <th wire:click="doSort('ktp')" class="px-4 py-3 cursor-pointer">
                         <x-table.heading-sorting :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="KTP" columnNow="ktp" />
-                    </th>
+                    </th> --}}
                     {{-- <th class="px-4 py-3">
                         Foto
                     </th> --}}
@@ -48,10 +48,10 @@
                         <x-table.heading-sorting :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="Nama lengkap"
                             columnNow="namaPegawai" />
                     </th>
-                    <th wire:click="doSort('namaPanggilan')" class="px-4 py-3 cursor-pointer">
+                    {{-- <th wire:click="doSort('namaPanggilan')" class="px-4 py-3 cursor-pointer">
                         <x-table.heading-sorting :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="Panggilan"
                             columnNow="namaPanggilan" />
-                    </th>
+                    </th> --}}
                     <th wire:click="doSort('bagian')" class="px-4 py-3 cursor-pointer">
                         <x-table.heading-sorting :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="Bagian"
                             columnNow="bagian" />
@@ -81,10 +81,10 @@
                                 value="{{ $item->nip }}" />
                         </th>
                         <th class="px-4 py-3">{{ $item->nip }}</th>
-                        <th class="px-4 py-3">{{ $item->ktp }}</th>
+                        {{-- <th class="px-4 py-3">{{ $item->ktp }}</th> --}}
                         {{-- <th class="px-4 py-3">{{ $item->foto }}</th> --}}
                         <th class="px-4 py-3">{{ $item->namaPegawai }}</th>
-                        <th class="px-4 py-3">{{ $item->namaPanggilan }}</th>
+                        {{-- <th class="px-4 py-3">{{ $item->namaPanggilan }}</th> --}}
                         <th class="px-4 py-3">{{ $item->namaBagian }}</th>
                         <th class="px-4 py-3">{{ $item->posisiSekarang }}</th>
                         <th class="px-4 py-3">{{ $item->tempatLahir }}/{{ $item->tgl_lahir_for_humans }}</th>
@@ -129,20 +129,19 @@
                     <x-input.text type="text" wire:model.defer="editing.nip" id="nip" placeholder="NIP" />
                 </x-input.group>
 
-                <x-input.group for="ktp" label="ktp" :error="$errors->first('editing.ktp')">
+                {{-- <x-input.group for="ktp" label="ktp" :error="$errors->first('editing.ktp')">
                     <x-input.text type="number" wire:model.defer="editing.ktp" id="ktp" lenght="16"
                         placeholder="KTP" />
-                </x-input.group>
+                </x-input.group> --}}
 
                 <x-input.group for="namaPegawai" label="namaPegawai" :error="$errors->first('editing.namaPegawai')">
-                    <x-input.text wire:model.defer="editing.namaPegawai" id="namaPegawai"
-                        placeholder="Nama Lengkap" />
+                    <x-input.text wire:model.defer="editing.namaPegawai" id="namaPegawai" placeholder="Nama Lengkap" />
                 </x-input.group>
 
-                <x-input.group for="namaPanggilan" label="namaPanggilan" :error="$errors->first('editing.namaPanggilan')">
+                {{-- <x-input.group for="namaPanggilan" label="namaPanggilan" :error="$errors->first('editing.namaPanggilan')">
                     <x-input.text wire:model.defer="editing.namaPanggilan" id="namaPanggilan"
                         placeholder="Panggilan" />
-                </x-input.group>
+                </x-input.group> --}}
 
                 <x-input.group for="bagian" label="Bagian" :error="$errors->first('editing.bagian')">
                     <x-input.select wire:model.defer='editing.bagian' id="bagian">
@@ -161,8 +160,7 @@
                 </x-input.group>
 
                 <x-input.group for="tempatLahir" label="Tempat Lahir" :error="$errors->first('editing.tempatLahir')">
-                    <x-input.text wire:model.defer="editing.tempatLahir" id="tempatLahir"
-                        placeholder="Tempat Lahir" />
+                    <x-input.text wire:model.defer="editing.tempatLahir" id="tempatLahir" placeholder="Tempat Lahir" />
                 </x-input.group>
 
                 <x-input.group for="tgl_lahir_for_editing" label="Tanggal Lahir" :error="$errors->first('editing.tgl_lahir_for_editing')">
@@ -191,7 +189,7 @@
     </form>
 
     {{-- Delete Model --}}
-    <x-modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
+    <x-modal name="confirm-pegawai-deletion" :show="$errors->isNotEmpty()" focusable>
         <form wire:submit="delete" class="p-6">
 
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">

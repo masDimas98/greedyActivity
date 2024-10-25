@@ -70,6 +70,12 @@ class Ready extends Component
                 return collect($value['idSertifikat'])->values();
             })->collapse()->toArray();
 
+        if (!$listSertifikatdiButuhkan) {
+            $this->alertMessage = 'Event Dalam Status Open Tidak memiliki "Sertifikat", silahkan tentukan sertifikat untuk setiap "Event" dalam Status "Open"';
+            $this->showAlertModal = true;
+            return;
+        }
+
         $jumlahAnggotaReady = DB::select('SELECT lt.nip, lt.idSertifikat, iFNULL(
             (
                 SELECT COUNT(status)

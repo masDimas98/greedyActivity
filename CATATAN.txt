@@ -23,3 +23,13 @@ Algoritma Greedy location : App\livewire\Greedy\WithActivities
 Gunakan Migration untuk migrasi database : php artisan migrate
 Jika Butuh Dummy data bisa menggunakan Seeder : php artisan Seeder
 (*note: dummy data kadang tidak sesuai, karena 1 event hanya bisa 1 sertifikat dan juga pegawai hanyan bisa menggunakan 1 sertifikat, bisa di akali dengan merubah dari database!!!)
+
+
+Langkah-langkah menjalankan Aplikasi:
+1. buka aplikasi laragon
+2. lalu tekan tombol "Start All"
+3. Buka "Terminal" pada aplikasi laragon
+4. ketikan "cd greedy"
+5. lalu "php artisan serve"
+6. buka browser lalu ketikan "127.0.0.1:8000"
+

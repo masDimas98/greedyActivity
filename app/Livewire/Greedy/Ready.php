@@ -92,6 +92,12 @@ class Ready extends Component
             where penugasan.nip is null
             AND sertifikasi.idSertifikat in (' . implode(",", $listSertifikatdiButuhkan) . ')) lt');
 
+        if (empty($jumlahAnggotaReady)) {
+            $this->alertMessage = 'Anggota Available kurang dari permintaan';
+            $this->showAlertModal = true;
+            return;
+        }
+
         $needGreedyActivity = array();
         $notNeedGreedyActivity = array();
         foreach ($jumlahDibutuhkan->get()->toArray() as $key => $value) {
